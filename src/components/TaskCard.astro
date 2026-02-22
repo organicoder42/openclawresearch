@@ -1,0 +1,49 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  category: string;
+  difficulty: string;
+  status: string;
+  prize: string | null;
+  href: string;
+  icon: string;
+}
+
+const { title, description, category, difficulty, status, prize, href, icon } = Astro.props;
+
+const difficultyColor: Record<string, string> = {
+  easy: 'text-[var(--color-green)]',
+  moderate: 'text-[var(--color-amber)]',
+  advanced: 'text-[var(--color-accent-light)]',
+};
+---
+
+<article class="glass-card p-6 flex flex-col h-full">
+  <div class="flex items-start justify-between mb-4">
+    <span class="text-3xl" role="img" aria-hidden="true">{icon}</span>
+    <div class="flex gap-2">
+      <span class="badge badge-open">{status}</span>
+    </div>
+  </div>
+
+  <h3 class="text-lg font-bold mb-2 text-[var(--color-text-primary)]">{title}</h3>
+
+  <p class="text-sm text-[var(--color-text-secondary)] mb-4 flex-1">{description}</p>
+
+  <div class="flex flex-wrap gap-2 mb-4">
+    <span class="badge badge-category">{category}</span>
+    <span class={`text-xs font-mono font-medium ${difficultyColor[difficulty] || 'text-[var(--color-text-muted)]'}`}>
+      {difficulty}
+    </span>
+  </div>
+
+  <div class="flex items-center justify-between pt-4 border-t border-[var(--color-border)]">
+    <span class="text-xs font-mono text-[var(--color-text-muted)]">
+      {prize ? `Prize: ${prize}` : 'Seeking sponsor'}
+    </span>
+    <a href={href} class="text-sm font-medium text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors">
+      View task &rarr;
+    </a>
+  </div>
+</article>

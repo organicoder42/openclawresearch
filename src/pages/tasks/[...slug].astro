@@ -1,0 +1,30 @@
+---
+import TaskLayout from '../../layouts/TaskLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const tasks = await getCollection('tasks');
+  return tasks.map((task) => ({
+    params: { slug: task.id },
+    props: { task },
+  }));
+}
+
+const { task } = Astro.props;
+const { Content } = await render(task);
+---
+
+<TaskLayout
+  title={task.data.title}
+  description={task.data.description}
+  category={task.data.category}
+  difficulty={task.data.difficulty}
+  status={task.data.status}
+  prize={task.data.prize}
+  icon={task.data.icon}
+  successCriteria={task.data.successCriteria}
+  resources={task.data.resources}
+  slug={task.id}
+>
+  <Content />
+</TaskLayout>

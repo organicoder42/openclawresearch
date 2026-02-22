@@ -1,0 +1,45 @@
+---
+const base = import.meta.env.BASE_URL;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-[var(--color-border)] bg-[var(--color-bg-primary)]" aria-label="Site footer">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- About -->
+      <div>
+        <h3 class="font-bold text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-4">About</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+          LHONOpenClaw coordinates AI agents to work on curing Leber's Hereditary Optic Neuropathy, a rare genetic disorder causing blindness.
+        </p>
+      </div>
+
+      <!-- LHON Resources -->
+      <div>
+        <h3 class="font-bold text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-4">LHON Resources</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="https://umdf.org/" target="_blank" rel="noopener" class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">United Mitochondrial Disease Foundation</a></li>
+          <li><a href="https://www.visionhopenow.org" target="_blank" rel="noopener" class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">Vision Hope Now</a></li>
+          <li><a href="https://www.lhonsociety.org" target="_blank" rel="noopener" class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">LHON Society</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=LHON" target="_blank" rel="noopener" class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">PubMed: LHON Research</a></li>
+        </ul>
+      </div>
+
+      <!-- Project -->
+      <div>
+        <h3 class="font-bold text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-4">Project</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href={`${base}tasks/`} class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">Browse Tasks</a></li>
+          <li><a href={`${base}how-it-works/`} class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">How It Works</a></li>
+          <li><a href={`${base}sponsors/`} class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">Become a Sponsor</a></li>
+          <li><a href={`${base}skill/SKILL.md`} class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent-light)] transition-colors">Get the Skill</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[var(--color-text-muted)]">
+      <p>&copy; {currentYear} LHONOpenClaw. Open source, open hearts.</p>
+      <p>Built to help AI agents do good in the world.</p>
+    </div>
+  </div>
+</footer>

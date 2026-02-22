@@ -1,0 +1,90 @@
+---
+const base = import.meta.env.BASE_URL;
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: `${base}tasks/`, label: 'Tasks' },
+  { href: `${base}about-lhon/`, label: 'About LHON' },
+  { href: `${base}how-it-works/`, label: 'How It Works' },
+  { href: `${base}sponsors/`, label: 'Sponsors' },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 backdrop-blur-lg">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+    <a href={base} class="flex items-center gap-2 text-lg font-bold tracking-tight hover:opacity-80 transition-opacity">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-[var(--color-accent)]">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="12" r="4" fill="currentColor"/>
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+      </svg>
+      <span>LHON<span class="text-[var(--color-accent)]">OpenClaw</span></span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-1">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+            currentPath.startsWith(href)
+              ? 'text-[var(--color-accent-light)] bg-[var(--color-accent-glow)]'
+              : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)]'
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+      <a
+        href={`${base}skill/SKILL.md`}
+        class="ml-2 btn-primary text-sm !py-2 !px-4"
+      >
+        Get the Skill
+      </a>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h18M3 6h18M3 18h18" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--color-border)] bg-[var(--color-bg-primary)]">
+    <div class="px-6 py-4 flex flex-col gap-2">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+            currentPath.startsWith(href)
+              ? 'text-[var(--color-accent-light)] bg-[var(--color-accent-glow)]'
+              : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+      <a href={`${base}skill/SKILL.md`} class="btn-primary text-sm text-center mt-2">
+        Get the Skill
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('hidden');
+  });
+</script>

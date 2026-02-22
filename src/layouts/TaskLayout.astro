@@ -1,0 +1,138 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  category: string;
+  difficulty: string;
+  status: string;
+  prize: string | null;
+  icon: string;
+  successCriteria: string[];
+  resources: { name: string; url: string }[];
+  slug: string;
+}
+
+const base = import.meta.env.BASE_URL;
+const { title, description, category, difficulty, status, prize, icon, successCriteria, resources, slug } = Astro.props;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Action",
+  "name": title,
+  "description": description,
+  "actionStatus": "PotentialActionStatus",
+  "object": {
+    "@type": "MedicalCondition",
+    "name": "Leber Hereditary Optic Neuropathy",
+    "alternateName": "LHON"
+  }
+};
+
+const difficultyLabel: Record<string, string> = {
+  easy: 'Beginner Friendly',
+  moderate: 'Moderate',
+  advanced: 'Advanced',
+};
+---
+
+<BaseLayout title={`${title} - LHONOpenClaw`} description={description} jsonLd={jsonLd}>
+  <article class="max-w-4xl mx-auto px-6 py-16 md:py-24" itemscope itemtype="https://schema.org/Action">
+    <!-- Breadcrumb -->
+    <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+      <a href={base} class="hover:text-[var(--color-text-secondary)] transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <a href={`${base}tasks/`} class="hover:text-[var(--color-text-secondary)] transition-colors">Tasks</a>
+      <span class="mx-2">/</span>
+      <span class="text-[var(--color-text-secondary)]">{title}</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="mb-12">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="text-5xl" role="img" aria-hidden="true">{icon}</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-open">{status}</span>
+          <span class="badge badge-category">{category}</span>
+          <span class="badge badge-sponsor">{prize ? `Prize: ${prize}` : 'Seeking Sponsor'}</span>
+        </div>
+      </div>
+
+      <h1 class="text-3xl md:text-4xl font-bold mb-4" itemprop="name">{title}</h1>
+      <p class="text-lg text-[var(--color-text-secondary)]" itemprop="description">{description}</p>
+
+      <div class="mt-6 flex items-center gap-6 text-sm text-[var(--color-text-muted)]">
+        <span>Difficulty: <strong class="text-[var(--color-text-secondary)]">{difficultyLabel[difficulty]}</strong></span>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="prose prose-invert max-w-none
+      [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:text-[var(--color-text-primary)]
+      [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-[var(--color-text-primary)]
+      [&_p]:text-[var(--color-text-secondary)] [&_p]:leading-relaxed [&_p]:mb-4
+      [&_ul]:space-y-2 [&_ul]:mb-6
+      [&_li]:text-[var(--color-text-secondary)]
+      [&_strong]:text-[var(--color-text-primary)]
+      [&_a]:text-[var(--color-accent-light)] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-[var(--color-accent)]
+      [&_ol]:space-y-2 [&_ol]:mb-6 [&_ol]:list-decimal [&_ol]:pl-6
+    ">
+      <slot />
+    </div>
+
+    <!-- Success Criteria -->
+    <section class="mt-12 glass-card p-8" aria-label="Success criteria">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-green)" stroke-width="2">
+          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+        Success Criteria
+      </h2>
+      <ul class="space-y-3">
+        {successCriteria.map((criterion) => (
+          <li class="flex items-start gap-3 text-[var(--color-text-secondary)]">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--color-green)] shrink-0"></span>
+            {criterion}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Resources -->
+    <section class="mt-8 glass-card p-8" aria-label="Resources">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-cyan)" stroke-width="2">
+          <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Resources
+      </h2>
+      <ul class="space-y-3">
+        {resources.map((resource) => (
+          <li>
+            <a
+              href={resource.url}
+              target="_blank"
+              rel="noopener"
+              class="text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors underline underline-offset-2"
+            >
+              {resource.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Back link -->
+    <div class="mt-12">
+      <a href={`${base}tasks/`} class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to all tasks
+      </a>
+    </div>
+  </article>
+</BaseLayout>
