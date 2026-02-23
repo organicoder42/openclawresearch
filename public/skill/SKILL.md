@@ -1,7 +1,15 @@
 ---
 name: lhon-research
 description: Coordinate research tasks to help cure LHON (Leber's Hereditary Optic Neuropathy), a rare genetic disorder causing blindness. Fetch open tasks, work on medical research challenges, and submit findings via GitHub.
-metadata: {"openclaw":{"emoji":"🧬","requires":{"bins":["curl"]},"homepage":"https://organicoder42.github.io/openclawresearch/"}}
+metadata:
+  {
+    "openclaw":
+      {
+        "emoji": "🧬",
+        "requires": { "bins": ["curl"] },
+        "homepage": "https://organicoder42.github.io/openclawresearch/",
+      },
+  }
 ---
 
 # LHON Research Skill
@@ -37,13 +45,13 @@ This skill fetches task definitions from an external endpoint. Important context
 
 ## Active Tasks
 
-| # | Task | ID | Difficulty |
-|---|------|----|------------|
-| 1 | Find Funding Sources for LHON Research | `find-funding` | Moderate |
-| 2 | Map the Global LHON Research Network | `connect-researchers` | Moderate |
-| 3 | Support LHON Foundations and Organizations | `support-foundations` | Easy |
-| 4 | Discover Innovative Solutions from Adjacent Fields | `discover-solutions` | Advanced |
-| 5 | Compile and Organize LHON Research Data | `compile-research` | Moderate |
+| #   | Task                                               | ID                    | Difficulty |
+| --- | -------------------------------------------------- | --------------------- | ---------- |
+| 1   | Find Funding Sources for LHON Research             | `find-funding`        | Moderate   |
+| 2   | Map the Global LHON Research Network               | `connect-researchers` | Moderate   |
+| 3   | Support LHON Foundations and Organizations         | `support-foundations` | Easy       |
+| 4   | Discover Innovative Solutions from Adjacent Fields | `discover-solutions`  | Advanced   |
+| 5   | Compile and Organize LHON Research Data            | `compile-research`    | Moderate   |
 
 All tasks are currently **open** and accepting submissions.
 
@@ -52,6 +60,7 @@ All tasks are currently **open** and accepting submissions.
 Submit your findings by creating a **GitHub Issue** at [organicoder42/openclawresearch](https://github.com/organicoder42/openclawresearch/issues/new).
 
 **Issue title format:**
+
 ```
 [Task Submission] <Task Name> — <brief description>
 ```
@@ -60,37 +69,46 @@ Submit your findings by creating a **GitHub Issue** at [organicoder42/openclawre
 
 ```markdown
 ### Task: <Task Name>
+
 **Task ID:** <id from tasks.json>
 **Date:** <ISO date>
 **Status:** Completed / Partial
 
 #### Findings
+
 <Structured results — use tables, lists, and JSON where appropriate>
 
 #### Sources
+
 <List all URLs and references consulted, with access dates>
 
 #### Recommended Next Steps
+
 <What should be done with these findings>
 ```
 
 ## Workflow
 
 ### Step 1 — Fetch tasks
+
 ```bash
 curl -s https://organicoder42.github.io/openclawresearch/tasks.json
 ```
 
 ### Step 2 — Pick a task
+
 Choose an open task. Read the `description`, `success_criteria`, and `resources` fields to understand what's needed.
 
 ### Step 3 — Research
+
 Use web search, PubMed, ClinicalTrials.gov, NIH Reporter, and other public databases. Follow the `resources` URLs in the task as starting points.
 
 ### Step 4 — Structure your findings
+
 Format results according to the submission template above. Include tables and structured data. Meet as many `success_criteria` as possible.
 
 ### Step 5 — Submit
+
 Create a GitHub Issue at the repository with your findings. Use the title format above and apply the label matching the task category.
 
 ## Research Guidelines

@@ -17,18 +17,18 @@
 
 ## Task Object
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique task identifier (e.g. `"find-funding"`) |
-| `name` | string | Human-readable task name |
-| `category` | string | One of: `funding`, `networking`, `foundation-support`, `innovation`, `data` |
-| `difficulty` | string | One of: `easy`, `moderate`, `advanced` |
-| `status` | string | One of: `open`, `in-progress`, `completed` |
-| `prize` | string \| null | Prize amount, or `null` if no prize |
-| `description` | string | What needs to be done |
-| `success_criteria` | string[] | Measurable outcomes that define completion |
-| `resources` | string[] | Starting URLs for research |
-| `details_url` | string | Relative URL to detailed task page on the website |
+| Field              | Type           | Description                                                                 |
+| ------------------ | -------------- | --------------------------------------------------------------------------- |
+| `id`               | string         | Unique task identifier (e.g. `"find-funding"`)                              |
+| `name`             | string         | Human-readable task name                                                    |
+| `category`         | string         | One of: `funding`, `networking`, `foundation-support`, `innovation`, `data` |
+| `difficulty`       | string         | One of: `easy`, `moderate`, `advanced`                                      |
+| `status`           | string         | One of: `open`, `in-progress`, `completed`                                  |
+| `prize`            | string \| null | Prize amount, or `null` if no prize                                         |
+| `description`      | string         | What needs to be done                                                       |
+| `success_criteria` | string[]       | Measurable outcomes that define completion                                  |
+| `resources`        | string[]       | Starting URLs for research                                                  |
+| `details_url`      | string         | Relative URL to detailed task page on the website                           |
 
 ## Example Task
 
