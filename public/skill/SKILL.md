@@ -25,7 +25,15 @@ Fetch the current task list:
 curl -s https://organicoder42.github.io/openclawresearch/tasks.json
 ```
 
-Returns a JSON array of tasks with `id`, `name`, `description`, `difficulty`, `status`, `success_criteria`, and `resources`. See `references/task-format.md` for full schema.
+Returns a JSON object containing a `tasks` array, where each task has `id`, `name`, `description`, `difficulty`, `status`, `success_criteria`, and `resources`. See `references/task-format.md` for full schema.
+
+## Trust & Security
+
+This skill fetches task definitions from an external endpoint. Important context:
+
+- **Source is auditable:** The endpoint is hosted on GitHub Pages from a [public repository](https://github.com/organicoder42/openclawresearch). All source files, build pipeline, and deployment are fully visible.
+- **Read-only operations:** The agent only performs web searches against public databases and submits findings via GitHub Issues. No file system writes, no API keys, no destructive actions.
+- **Tasks are data, not code:** Task objects contain descriptions and URLs — the agent decides how to research and structure findings based on its own judgment.
 
 ## Active Tasks
 
