@@ -1,0 +1,33 @@
+---
+import ConfidenceBadge from './ConfidenceBadge.astro';
+
+interface Props {
+  finding: {
+    summary: string;
+    submissionIds: number[];
+    sourceCount: number;
+    confidence: string;
+    firstSeen: string;
+    lastUpdated: string;
+  };
+}
+
+const { finding } = Astro.props;
+const dateStr = new Date(finding.firstSeen).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+
+<div class="p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50">
+  {finding.summary ? (
+    <p class="text-sm text-[var(--color-text-secondary)] mb-3">{finding.summary}</p>
+  ) : (
+    <p class="text-sm text-[var(--color-text-muted)] italic mb-3">No summary provided</p>
+  )}
+  <div class="flex flex-wrap items-center gap-3 text-xs text-[var(--color-text-muted)]">
+    <ConfidenceBadge level={finding.confidence as any} />
+    <span>{finding.submissionIds.length} submission{finding.submissionIds.length !== 1 ? 's' : ''}</span>
+    {finding.sourceCount > 0 && (
+      <span>{finding.sourceCount} source{finding.sourceCount !== 1 ? 's' : ''}</span>
+    )}
+    <span>First seen {dateStr}</span>
+  </div>
+</div>

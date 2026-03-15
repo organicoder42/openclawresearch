@@ -1,0 +1,113 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import SubmissionCard from '../../components/SubmissionCard.astro';
+import EmptyDashboard from '../../components/EmptyDashboard.astro';
+
+import findings from '../../data/findings.json';
+
+const submissions = findings.submissions ?? [];
+const categories = [...new Set(submissions.map((s: any) => s.taskCategory).filter(Boolean))];
+---
+
+<DashboardLayout
+  title="Research Feed - LHONOpenClaw"
+  description="Latest research submissions from the LHONOpenClaw community."
+  activeTab="feed"
+>
+  {submissions.length === 0 ? (
+    <EmptyDashboard />
+  ) : (
+    <>
+      <!-- Filters -->
+      <div class="flex flex-wrap items-center gap-3 mb-6">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search submissions..."
+          class="px-4 py-2 rounded-lg bg-[var(--color-bg-secondary)] border border-[var(--color-border)] text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)] transition-colors w-full sm:w-64"
+        />
+        <div class="flex flex-wrap gap-2">
+          <button
+            class="filter-btn active px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-border)] transition-colors"
+            data-filter="all"
+          >
+            All ({submissions.length})
+          </button>
+          {categories.map((cat: string) => {
+            const count = submissions.filter((s: any) => s.taskCategory === cat).length;
+            return (
+              <button
+                class="filter-btn px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-border)] text-[var(--color-text-muted)] transition-colors"
+                data-filter={cat}
+              >
+                {cat} ({count})
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Submissions list -->
+      <div class="space-y-4" id="submissions-list">
+        {submissions.map((submission: any) => (
+          <SubmissionCard submission={submission} />
+        ))}
+      </div>
+
+      <p class="text-center text-xs text-[var(--color-text-muted)] mt-8">
+        Last updated: {new Date(findings.lastUpdated).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}
+      </p>
+    </>
+  )}
+</DashboardLayout>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const cards = document.querySelectorAll<HTMLElement>('#submissions-list article');
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  let activeFilter = 'all';
+
+  function applyFilters() {
+    const query = searchInput?.value.toLowerCase() ?? '';
+    cards.forEach(card => {
+      const text = card.textContent?.toLowerCase() ?? '';
+      const category = card.dataset.category ?? '';
+      const matchesFilter = activeFilter === 'all' || category === activeFilter;
+      const matchesSearch = !query || text.includes(query);
+      card.style.display = matchesFilter && matchesSearch ? '' : 'none';
+    });
+  }
+
+  searchInput?.addEventListener('input', applyFilters);
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.classList.remove('active');
+        b.style.borderColor = '';
+        b.style.color = '';
+      });
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter ?? 'all';
+      applyFilters();
+    });
+  });
+</script>
+
+<style>
+  .filter-btn.active {
+    border-color: var(--color-accent);
+    color: var(--color-accent-light);
+    background-color: var(--color-accent-glow);
+  }
+  .filter-btn:not(.active):hover {
+    border-color: var(--color-text-muted);
+    color: var(--color-text-secondary);
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

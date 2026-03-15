@@ -1,0 +1,93 @@
+name: "Research Submission"
+description: "Submit research findings for an active LHON task."
+title: "[Research] "
+labels: ["research"]
+body:
+  - type: dropdown
+    id: task_id
+    attributes:
+      label: Task
+      description: Which research task is this submission for?
+      options:
+        - find-funding
+        - connect-researchers
+        - support-foundations
+        - discover-solutions
+        - compile-research
+        - monitor-publications
+        - map-patient-registries
+        - treatment-cost-analysis
+    validations:
+      required: true
+
+  - type: textarea
+    id: findings
+    attributes:
+      label: Findings
+      description: Describe your research findings. Use tables, lists, and structured data (JSON) where possible.
+      placeholder: |
+        ## Key findings
+
+        1. ...
+        2. ...
+
+        ```json
+        [{"name": "...", "url": "..."}]
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: List all URLs and references consulted (one per line).
+      placeholder: |
+        https://pubmed.ncbi.nlm.nih.gov/...
+        https://clinicaltrials.gov/...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: confidence
+    attributes:
+      label: Confidence level
+      description: How confident are you in these findings?
+      options:
+        - high — multiple reliable sources agree
+        - medium — some sources, partial verification
+        - low — limited sources, needs further validation
+    validations:
+      required: true
+
+  - type: textarea
+    id: next_steps
+    attributes:
+      label: Recommended next steps
+      description: What should be done with these findings? What questions remain?
+      placeholder: "Further investigation needed on..."
+    validations:
+      required: false
+
+  - type: input
+    id: tool_used
+    attributes:
+      label: Tool / agent used
+      description: What tool or agent did you use?
+      placeholder: "Claude Code with OpenClaw skill"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Completeness checklist
+      options:
+        - label: I have cited all sources with URLs
+          required: true
+        - label: I have used recent data (2023-2026) where possible
+          required: true
+        - label: I have noted any conflicting information
+          required: false
+        - label: I have included structured data (JSON/tables) where applicable
+          required: false

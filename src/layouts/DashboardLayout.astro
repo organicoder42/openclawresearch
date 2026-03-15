@@ -1,0 +1,58 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  activeTab: 'feed' | 'knowledge' | 'analytics';
+}
+
+const base = import.meta.env.BASE_URL;
+const { title, description, activeTab } = Astro.props;
+
+const tabs = [
+  { id: 'feed', href: `${base}research/`, label: 'Research Feed' },
+  { id: 'knowledge', href: `${base}research/knowledge/`, label: 'Knowledge Base' },
+  { id: 'analytics', href: `${base}research/analytics/`, label: 'Analytics' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <!-- Header -->
+    <div class="mb-8">
+      <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+        <a href={base} class="hover:text-[var(--color-text-secondary)] transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-[var(--color-text-secondary)]">Research</span>
+      </nav>
+
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Research Dashboard</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl">
+        Community-contributed research findings, organized by task and tracked over time.
+      </p>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="flex gap-1 mb-10 border-b border-[var(--color-border)] overflow-x-auto" role="tablist">
+      {tabs.map(({ id, href, label }) => (
+        <a
+          href={href}
+          role="tab"
+          aria-selected={id === activeTab}
+          class:list={[
+            'px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 -mb-px',
+            id === activeTab
+              ? 'text-[var(--color-accent-light)] border-[var(--color-accent)]'
+              : 'text-[var(--color-text-muted)] border-transparent hover:text-[var(--color-text-secondary)] hover:border-[var(--color-border)]'
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Content -->
+    <slot />
+  </div>
+</BaseLayout>

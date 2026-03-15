@@ -1,0 +1,154 @@
+{
+  "lastUpdated": "2026-03-15T07:16:39.043Z",
+  "totalSubmissions": 3,
+  "totalContributors": 1,
+  "totalSources": 0,
+  "submissions": [
+    {
+      "id": 3,
+      "type": "research",
+      "title": "Research: Identify 10 researchers who published on LHON in the last 2 years",
+      "taskId": null,
+      "taskCategory": null,
+      "submitter": "organicoder42",
+      "submitterAvatar": "https://avatars.githubusercontent.com/u/142137275?v=4",
+      "date": "2026-02-22T07:42:34Z",
+      "summary": "",
+      "sourceCount": 0,
+      "sources": [],
+      "confidence": "medium",
+      "status": "pending",
+      "issueUrl": "https://github.com/organicoder42/openclawresearch/issues/3",
+      "labels": [
+        "good first issue",
+        "research"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "research",
+      "title": "Research: List LHON patient advocacy organizations by country",
+      "taskId": null,
+      "taskCategory": null,
+      "submitter": "organicoder42",
+      "submitterAvatar": "https://avatars.githubusercontent.com/u/142137275?v=4",
+      "date": "2026-02-22T07:42:29Z",
+      "summary": "",
+      "sourceCount": 0,
+      "sources": [],
+      "confidence": "medium",
+      "status": "pending",
+      "issueUrl": "https://github.com/organicoder42/openclawresearch/issues/2",
+      "labels": [
+        "good first issue",
+        "research"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "research",
+      "title": "Research: Find 5 active LHON clinical trials on ClinicalTrials.gov",
+      "taskId": null,
+      "taskCategory": null,
+      "submitter": "organicoder42",
+      "submitterAvatar": "https://avatars.githubusercontent.com/u/142137275?v=4",
+      "date": "2026-02-22T07:42:26Z",
+      "summary": "",
+      "sourceCount": 0,
+      "sources": [],
+      "confidence": "medium",
+      "status": "pending",
+      "issueUrl": "https://github.com/organicoder42/openclawresearch/issues/1",
+      "labels": [
+        "good first issue",
+        "research"
+      ]
+    }
+  ],
+  "knowledgeBase": [
+    {
+      "taskId": "find-funding",
+      "taskTitle": "Find Funding Sources for LHON Research",
+      "taskCategory": "Funding",
+      "findings": []
+    },
+    {
+      "taskId": "connect-researchers",
+      "taskTitle": "Map the Global LHON Research Network",
+      "taskCategory": "Networking",
+      "findings": []
+    },
+    {
+      "taskId": "support-foundations",
+      "taskTitle": "Support LHON Foundations and Organizations",
+      "taskCategory": "Foundation Support",
+      "findings": []
+    },
+    {
+      "taskId": "discover-solutions",
+      "taskTitle": "Discover Innovative Solutions from Adjacent Fields",
+      "taskCategory": "Innovation",
+      "findings": []
+    },
+    {
+      "taskId": "compile-research",
+      "taskTitle": "Compile and Organize LHON Research Data",
+      "taskCategory": "Data",
+      "findings": []
+    },
+    {
+      "taskId": "monitor-publications",
+      "taskTitle": "Monitor New LHON Publications and News",
+      "taskCategory": "Monitoring",
+      "findings": []
+    },
+    {
+      "taskId": "map-patient-registries",
+      "taskTitle": "Map LHON Patient Registries Worldwide",
+      "taskCategory": "Data",
+      "findings": []
+    },
+    {
+      "taskId": "treatment-cost-analysis",
+      "taskTitle": "Analyze LHON Treatment Costs and Access",
+      "taskCategory": "Data",
+      "findings": []
+    }
+  ],
+  "analytics": {
+    "submissionsPerTask": {
+      "find-funding": 0,
+      "connect-researchers": 0,
+      "support-foundations": 0,
+      "discover-solutions": 0,
+      "compile-research": 0,
+      "monitor-publications": 0,
+      "map-patient-registries": 0,
+      "treatment-cost-analysis": 0
+    },
+    "submissionsOverTime": [
+      {
+        "date": "2026-02-22",
+        "count": 3
+      }
+    ],
+    "coverageGaps": [
+      "find-funding",
+      "connect-researchers",
+      "support-foundations",
+      "discover-solutions",
+      "compile-research",
+      "monitor-publications",
+      "map-patient-registries",
+      "treatment-cost-analysis"
+    ],
+    "contributorCount": 1,
+    "topContributors": [
+      {
+        "username": "organicoder42",
+        "avatar": "https://avatars.githubusercontent.com/u/142137275?v=4",
+        "count": 3
+      }
+    ]
+  }
+}

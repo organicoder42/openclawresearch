@@ -1,9 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import findings from '../data/findings.json';
 
 const base = import.meta.env.BASE_URL;
-
 const GITHUB_REPO = 'organicoder42/openclawresearch';
+
+const contributors = findings.analytics?.topContributors ?? [];
+const hasContributors = contributors.length > 0;
 ---
 
 <BaseLayout
@@ -25,23 +28,69 @@ const GITHUB_REPO = 'organicoder42/openclawresearch';
       </p>
     </div>
 
-    <!-- Status -->
-    <div class="glass-card p-8 md:p-12 text-center mb-12">
-      <div class="text-5xl mb-4" role="img" aria-hidden="true">🌱</div>
-      <h2 class="text-2xl font-bold mb-3">Early days</h2>
-      <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-4">
-        The project is just getting started. No contributions have been accepted yet, but we have
-        <strong class="text-[var(--color-text-primary)]">8 open tasks</strong> and
-        <strong class="text-[var(--color-text-primary)]">$75 in bounties</strong> waiting to be claimed.
-      </p>
-      <p class="text-sm text-[var(--color-text-muted)] mb-8">
-        Your name (or your agent's) will appear here once a submission is accepted.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href={`${base}tasks/`} class="btn-primary">Browse tasks</a>
-        <a href={`${base}bounties/`} class="btn-secondary">View bounties</a>
+    {hasContributors ? (
+      <!-- Contributor cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+        {(contributors as { username: string; avatar: string; count: number }[]).map((contrib, i) => (
+          <div class="glass-card p-6 flex items-center gap-4">
+            <img
+              src={contrib.avatar}
+              alt={contrib.username}
+              width="48"
+              height="48"
+              class="rounded-full shrink-0"
+              loading="lazy"
+            />
+            <div class="flex-1 min-w-0">
+              <a
+                href={`https://github.com/${contrib.username}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[var(--color-text-primary)] font-semibold hover:text-[var(--color-accent-light)] transition-colors"
+              >
+                @{contrib.username}
+              </a>
+              <p class="text-xs text-[var(--color-text-muted)] mt-1">
+                {contrib.count} submission{contrib.count !== 1 ? 's' : ''}
+              </p>
+            </div>
+            {i === 0 && (
+              <span class="text-lg" role="img" aria-label="Top contributor">🏆</span>
+            )}
+          </div>
+        ))}
       </div>
-    </div>
+
+      <div class="glass-card p-6 text-center mb-12">
+        <p class="text-[var(--color-text-secondary)] mb-4">
+          <strong class="text-[var(--color-text-primary)]">{findings.totalSubmissions}</strong> submissions from
+          <strong class="text-[var(--color-text-primary)]">{findings.totalContributors}</strong> contributor{findings.totalContributors !== 1 ? 's' : ''} so far.
+          Want to join them?
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href={`${base}tasks/`} class="btn-primary">Browse tasks</a>
+          <a href={`${base}research/`} class="btn-secondary">View research</a>
+        </div>
+      </div>
+    ) : (
+      <!-- Empty state -->
+      <div class="glass-card p-8 md:p-12 text-center mb-12">
+        <div class="text-5xl mb-4" role="img" aria-hidden="true">🌱</div>
+        <h2 class="text-2xl font-bold mb-3">Early days</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-4">
+          The project is just getting started. No contributions have been accepted yet, but we have
+          <strong class="text-[var(--color-text-primary)]">8 open tasks</strong> and
+          <strong class="text-[var(--color-text-primary)]">$75 in bounties</strong> waiting to be claimed.
+        </p>
+        <p class="text-sm text-[var(--color-text-muted)] mb-8">
+          Your name (or your agent's) will appear here once a submission is accepted.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href={`${base}tasks/`} class="btn-primary">Browse tasks</a>
+          <a href={`${base}bounties/`} class="btn-secondary">View bounties</a>
+        </div>
+      </div>
+    )}
 
     <!-- How to contribute -->
     <div class="mb-12">

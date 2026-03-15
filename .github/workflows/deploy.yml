@@ -26,6 +26,13 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Ensure findings data exists
+        run: |
+          mkdir -p src/data
+          if [ ! -f src/data/findings.json ]; then
+            echo '{"lastUpdated":"","totalSubmissions":0,"totalContributors":0,"totalSources":0,"submissions":[],"knowledgeBase":[],"analytics":{"submissionsPerTask":{},"submissionsOverTime":[],"coverageGaps":[],"contributorCount":0,"topContributors":[]}}' > src/data/findings.json
+          fi
+
       - name: Install dependencies
         run: npm ci
 

@@ -1,0 +1,144 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+
+import findings from '../../../data/findings.json';
+
+const analytics = findings.analytics;
+const totalSubmissions = findings.totalSubmissions;
+const totalContributors = findings.totalContributors;
+const totalSources = findings.totalSources;
+const tasksWithData = Object.values(analytics.submissionsPerTask).filter((v: any) => v > 0).length;
+const totalTasks = Object.keys(analytics.submissionsPerTask).length;
+
+// Bar chart data
+const taskBars = Object.entries(analytics.submissionsPerTask).map(([id, count]) => ({
+  id,
+  count: count as number,
+}));
+const maxCount = Math.max(...taskBars.map(t => t.count), 1);
+
+// Format task ID for display
+function formatTaskId(id: string): string {
+  return id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+---
+
+<DashboardLayout
+  title="Analytics - LHONOpenClaw"
+  description="Research progress analytics for the LHONOpenClaw project."
+  activeTab="analytics"
+>
+  <!-- Stats row -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+    {[
+      { label: 'Submissions', value: totalSubmissions, icon: '📋' },
+      { label: 'Contributors', value: totalContributors, icon: '👥' },
+      { label: 'Sources cited', value: totalSources, icon: '🔗' },
+      { label: 'Tasks covered', value: `${tasksWithData}/${totalTasks}`, icon: '✅' },
+    ].map(({ label, value, icon }) => (
+      <div class="glass-card p-5 text-center">
+        <div class="text-2xl mb-1" aria-hidden="true">{icon}</div>
+        <div class="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)]">{value}</div>
+        <div class="text-xs text-[var(--color-text-muted)] mt-1">{label}</div>
+      </div>
+    ))}
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+    <!-- Task Coverage -->
+    <div class="glass-card p-6">
+      <h2 class="text-lg font-bold mb-4">Submissions per task</h2>
+      <div class="space-y-3">
+        {taskBars.map(({ id, count }) => (
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-[var(--color-text-secondary)] truncate mr-2">{formatTaskId(id)}</span>
+              <span class="text-[var(--color-text-muted)] shrink-0">{count}</span>
+            </div>
+            <div class="h-2 rounded-full bg-[var(--color-bg-secondary)] overflow-hidden">
+              <div
+                class="h-full rounded-full transition-all"
+                style={`width: ${count > 0 ? Math.max((count / maxCount) * 100, 4) : 0}%; background: linear-gradient(90deg, var(--color-accent), var(--color-cyan));`}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Coverage Gaps -->
+    <div class="glass-card p-6">
+      <h2 class="text-lg font-bold mb-4">Coverage gaps</h2>
+      {analytics.coverageGaps.length === 0 ? (
+        <p class="text-sm text-[var(--color-green)]">All tasks have at least one submission!</p>
+      ) : (
+        <div class="space-y-2">
+          {(analytics.coverageGaps as string[]).map((gap) => (
+            <div class="flex items-center gap-3 p-3 rounded-lg border border-dashed border-[var(--color-border)]">
+              <span class="w-2 h-2 rounded-full bg-[var(--color-amber)] shrink-0" />
+              <span class="text-sm text-[var(--color-text-secondary)]">{formatTaskId(gap)}</span>
+            </div>
+          ))}
+          <p class="text-xs text-[var(--color-text-muted)] mt-2">
+            These tasks have no submissions yet. Help fill the gaps!
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+    <!-- Timeline -->
+    <div class="glass-card p-6">
+      <h2 class="text-lg font-bold mb-4">Submissions over time</h2>
+      {analytics.submissionsOverTime.length === 0 ? (
+        <p class="text-sm text-[var(--color-text-muted)]">No data yet</p>
+      ) : (
+        <div class="space-y-3">
+          {(analytics.submissionsOverTime as { date: string; count: number }[]).map(({ date, count }) => (
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-[var(--color-text-muted)] font-mono w-24 shrink-0">{date}</span>
+              <div class="flex-1 h-2 rounded-full bg-[var(--color-bg-secondary)] overflow-hidden">
+                <div
+                  class="h-full rounded-full"
+                  style={`width: ${Math.max((count / Math.max(...(analytics.submissionsOverTime as any[]).map((s: any) => s.count), 1)) * 100, 8)}%; background: linear-gradient(90deg, var(--color-accent), var(--color-cyan));`}
+                />
+              </div>
+              <span class="text-xs text-[var(--color-text-muted)] w-6 text-right">{count}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- Top Contributors -->
+    <div class="glass-card p-6">
+      <h2 class="text-lg font-bold mb-4">Top contributors</h2>
+      {analytics.topContributors.length === 0 ? (
+        <p class="text-sm text-[var(--color-text-muted)]">No contributors yet</p>
+      ) : (
+        <div class="space-y-3">
+          {(analytics.topContributors as { username: string; avatar: string; count: number }[]).map((contrib, i) => (
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-[var(--color-text-muted)] font-mono w-5">{i + 1}.</span>
+              <img
+                src={contrib.avatar}
+                alt={contrib.username}
+                width="28"
+                height="28"
+                class="rounded-full"
+                loading="lazy"
+              />
+              <span class="text-sm text-[var(--color-text-secondary)] flex-1">@{contrib.username}</span>
+              <span class="text-xs font-mono text-[var(--color-accent-light)]">{contrib.count}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <p class="text-center text-xs text-[var(--color-text-muted)]">
+    Last updated: {new Date(findings.lastUpdated).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}
+  </p>
+</DashboardLayout>

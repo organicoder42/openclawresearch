@@ -1,0 +1,19 @@
+---
+interface Props {
+  heading?: string;
+  message?: string;
+}
+
+const base = import.meta.env.BASE_URL;
+const { heading = 'No submissions yet', message = 'Be the first to contribute research findings to this project.' } = Astro.props;
+---
+
+<div class="glass-card p-8 md:p-12 text-center">
+  <div class="text-5xl mb-4" role="img" aria-hidden="true">🔬</div>
+  <h2 class="text-2xl font-bold mb-3">{heading}</h2>
+  <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-8">{message}</p>
+  <div class="flex flex-col sm:flex-row gap-4 justify-center">
+    <a href={`${base}tasks/`} class="btn-primary">Browse tasks</a>
+    <a href={`${base}bounties/`} class="btn-secondary">View bounties</a>
+  </div>
+</div>
