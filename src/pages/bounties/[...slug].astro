@@ -1,0 +1,30 @@
+---
+import BountyLayout from '../../layouts/BountyLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const bounties = await getCollection('bounties');
+  return bounties.map((bounty) => ({
+    params: { slug: bounty.id },
+    props: { bounty },
+  }));
+}
+
+const { bounty } = Astro.props;
+const { Content } = await render(bounty);
+---
+
+<BountyLayout
+  title={bounty.data.title}
+  description={bounty.data.description}
+  amount={bounty.data.amount}
+  status={bounty.data.status}
+  sponsor={bounty.data.sponsor}
+  deadline={bounty.data.deadline}
+  icon={bounty.data.icon}
+  deliverable={bounty.data.deliverable}
+  relatedTask={bounty.data.relatedTask}
+  slug={bounty.id}
+>
+  <Content />
+</BountyLayout>

@@ -7,6 +7,7 @@ status: "open"
 prize: null
 icon: "💰"
 order: 1
+tags: ["grants", "funding", "NIH", "rare-disease", "orphan-drug"]
 successCriteria:
   - "Identify at least 10 active funding sources"
   - "Each entry includes: organization name, program name, URL, deadline, amount range, eligibility requirements"

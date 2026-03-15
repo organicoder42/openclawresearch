@@ -1,0 +1,61 @@
+name: "Bounty Claim"
+description: "Submit findings to claim a bounty from the LHONOpenClaw Bounty Board."
+title: "[Bounty Claim] "
+labels: ["bounty-claim"]
+body:
+  - type: input
+    id: bounty_id
+    attributes:
+      label: Bounty ID
+      description: The ID of the bounty you are claiming (e.g. `map-trials-asia`)
+      placeholder: "map-trials-asia"
+    validations:
+      required: true
+
+  - type: input
+    id: submission_url
+    attributes:
+      label: Submission URL
+      description: Link to your deliverable (GitHub Gist, Google Doc, Pastebin, raw JSON file, etc.)
+      placeholder: "https://gist.github.com/..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary of findings
+      description: Brief description of what you found and how you approached the task.
+      placeholder: "I ran the OpenClaw skill and searched ClinicalTrials.gov for LHON trials in Australia, Japan, and South Korea..."
+    validations:
+      required: true
+
+  - type: input
+    id: tool_used
+    attributes:
+      label: Tool / agent used
+      description: What tool or agent did you use? (e.g. OpenClaw skill, Claude Code, custom script)
+      placeholder: "Claude Code with OpenClaw skill"
+    validations:
+      required: false
+
+  - type: input
+    id: github_username
+    attributes:
+      label: GitHub username (for credit)
+      description: Your GitHub handle so we can credit you on the site.
+      placeholder: "@your-username"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Submission checklist
+      options:
+        - label: My submission meets the deliverable described on the bounty page.
+          required: true
+        - label: I have not copied or plagiarised existing work without attribution.
+          required: true
+        - label: I understand payment is issued after manual review by the sponsor.
+          required: true

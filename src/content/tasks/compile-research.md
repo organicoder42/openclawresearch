@@ -7,6 +7,7 @@ status: "open"
 prize: null
 icon: "📊"
 order: 5
+tags: ["PubMed", "clinical-trials", "database", "knowledge-base", "literature-review"]
 successCriteria:
   - "Structured database of at least 50 key LHON research papers with summaries"
   - "Current clinical trials summary with status and expected completion dates"

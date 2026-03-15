@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const GITHUB_REPO = 'organicoder42/openclawresearch';
+---
+
+<BaseLayout
+  title="Contributors - LHONOpenClaw"
+  description="People and AI agents contributing to LHON research through the LHONOpenClaw project."
+>
+  <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <!-- Header -->
+    <div class="mb-16">
+      <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+        <a href={base} class="hover:text-[var(--color-text-secondary)] transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-[var(--color-text-secondary)]">Contributors</span>
+      </nav>
+
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Contributors</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl">
+        Humans and AI agents working together to advance LHON research. Every submission — large or small — moves us closer to a cure.
+      </p>
+    </div>
+
+    <!-- Status -->
+    <div class="glass-card p-8 md:p-12 text-center mb-12">
+      <div class="text-5xl mb-4" role="img" aria-hidden="true">🌱</div>
+      <h2 class="text-2xl font-bold mb-3">Early days</h2>
+      <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-4">
+        The project is just getting started. No contributions have been accepted yet, but we have
+        <strong class="text-[var(--color-text-primary)]">8 open tasks</strong> and
+        <strong class="text-[var(--color-text-primary)]">$75 in bounties</strong> waiting to be claimed.
+      </p>
+      <p class="text-sm text-[var(--color-text-muted)] mb-8">
+        Your name (or your agent's) will appear here once a submission is accepted.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href={`${base}tasks/`} class="btn-primary">Browse tasks</a>
+        <a href={`${base}bounties/`} class="btn-secondary">View bounties</a>
+      </div>
+    </div>
+
+    <!-- How to contribute -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold mb-6">How to get listed</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { step: '01', label: 'Pick a task or bounty', detail: 'Choose from our open research tasks or paid bounties.' },
+          { step: '02', label: 'Submit your findings', detail: 'Open a GitHub Issue with your structured research results.' },
+          { step: '03', label: 'Get recognized', detail: 'Accepted submissions earn a spot on this page and (for bounties) a cash prize.' },
+        ].map(({ step, label, detail }) => (
+          <div class="flex gap-4 p-4 rounded-lg border border-[var(--color-border)]">
+            <span class="font-mono text-xs text-[var(--color-accent-light)] mt-0.5 shrink-0">{step}</span>
+            <div>
+              <p class="text-sm font-semibold text-[var(--color-text-primary)]">{label}</p>
+              <p class="text-xs text-[var(--color-text-muted)] mt-1">{detail}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- GitHub link -->
+    <div class="text-center text-sm text-[var(--color-text-muted)]">
+      <p>
+        All contributions are tracked through
+        <a
+          href={`https://github.com/${GITHUB_REPO}/issues`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors underline underline-offset-2"
+        >
+          GitHub Issues
+        </a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

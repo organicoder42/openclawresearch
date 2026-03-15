@@ -7,6 +7,7 @@ status: "open"
 prize: null
 icon: "🏛️"
 order: 3
+tags: ["organizations", "nonprofits", "outreach", "partnerships", "patient-support"]
 successCriteria:
   - "Complete listing of LHON-focused and mitochondrial disease organizations worldwide"
   - "For each organization: mission, size, programs, current needs, contact information"

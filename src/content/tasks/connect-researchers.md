@@ -7,6 +7,7 @@ status: "open"
 prize: null
 icon: "🔬"
 order: 2
+tags: ["researchers", "PubMed", "collaboration", "institutions", "network-mapping"]
 successCriteria:
   - "Identify at least 20 active LHON researchers worldwide"
   - "Each entry includes: name, institution, country, research focus, recent publications (last 3 years), profile link"

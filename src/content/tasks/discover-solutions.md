@@ -7,6 +7,7 @@ status: "open"
 prize: null
 icon: "💡"
 order: 4
+tags: ["gene-therapy", "TALED", "mitochondrial", "innovation", "cross-disciplinary"]
 successCriteria:
   - "Identify at least 5 promising approaches from outside traditional LHON research"
   - "For each approach: technology name, current application, potential LHON application, key papers, feasibility assessment"
