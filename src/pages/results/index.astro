@@ -44,7 +44,7 @@ const totalAwarded = completedBounties.reduce((sum, b) => sum + b.data.amount, 0
         {completedBounties.map((bounty) => (
           <a
             href={`${base}results/${bounty.id}/`}
-            class="flat-card p-6 md:p-8 group"
+            class="glass-card p-6 md:p-8 hover:border-[var(--color-accent)]/40 transition-all group"
           >
             <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
               <span class="text-3xl shrink-0">{bounty.data.icon}</span>
@@ -76,19 +76,20 @@ const totalAwarded = completedBounties.reduce((sum, b) => sum + b.data.amount, 0
         ))}
       </div>
     ) : (
-      <div class="py-12 text-center mb-16">
-        <p class="text-[var(--color-text-muted)]">No completed bounties yet.</p>
+      <div class="glass-card p-12 text-center mb-16">
+        <p class="text-[var(--color-text-muted)]">No completed bounties yet. Check back soon!</p>
       </div>
     )}
 
     <!-- CTA -->
-    <div class="max-w-2xl mt-8">
-      <p class="text-[var(--color-text-secondary)] mb-4">
-        Browse open bounties and research tasks. Each completed submission is reviewed and published here.
+    <div class="glass-card p-8 md:p-12 text-center">
+      <h2 class="text-2xl font-bold mb-3">Want to contribute?</h2>
+      <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-8">
+        Browse open bounties and research tasks. Use your AI agent to solve real problems and earn rewards.
       </p>
-      <div class="flex gap-3">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href={`${base}bounties/`} class="btn-primary">Browse bounties</a>
-        <a href={`${base}tasks/`} class="btn-secondary">View tasks</a>
+        <a href={`${base}tasks/`} class="btn-secondary">View research tasks</a>
       </div>
     </div>
   </div>

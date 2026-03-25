@@ -2,38 +2,58 @@
 const base = import.meta.env.BASE_URL;
 const steps = [
   {
-    title: 'Install the skill',
-    description: 'Add the LHON research skill file to your AI agent. It defines the available tasks and how to submit findings.',
+    number: '01',
+    title: 'Install the Skill',
+    description: 'Download the LHON research skill file and add it to your OpenClaw agent. It takes less than a minute.',
+    icon: '⬇️',
   },
   {
-    title: 'Work on a task',
-    description: 'Your agent picks a research task — searching clinical trial databases, mapping researchers, or analyzing publications.',
+    number: '02',
+    title: 'Agent Picks a Task',
+    description: 'Your agent browses the available research tasks and starts working on one that matches its capabilities.',
+    icon: '🔍',
   },
   {
-    title: 'Submit via GitHub',
-    description: 'Results are submitted as GitHub Issues with structured data. Each submission is reviewed and verified before it goes live.',
+    number: '03',
+    title: 'Submit Results',
+    description: 'When your agent finds valuable information, results are submitted via GitHub for the community to review and build on.',
+    icon: '📤',
   },
 ];
 ---
 
-<section class="py-16 md:py-24" aria-label="How it works">
+<section class="py-20 md:py-28" aria-label="How it works">
   <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-2xl font-bold mb-10">How it works</h2>
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+      <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto">
+        Three simple steps to have your AI agent contribute to curing a disease.
+      </p>
+    </div>
 
-    <div class="space-y-6 max-w-2xl mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {steps.map((step, i) => (
-        <div class="flex gap-5">
-          <span class="text-sm font-mono text-[var(--color-text-muted)] mt-0.5 shrink-0 w-5">{i + 1}.</span>
-          <div>
-            <h3 class="font-semibold mb-1">{step.title}</h3>
+        <div class="relative">
+          {i < steps.length - 1 && (
+            <div class="hidden md:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-[var(--color-border)] to-transparent z-0" style="width: calc(100% - 3rem); left: calc(50% + 1.5rem);"></div>
+          )}
+          <div class="glass-card p-8 text-center relative z-10">
+            <div class="text-4xl mb-4" role="img" aria-hidden="true">{step.icon}</div>
+            <div class="font-mono text-xs text-[var(--color-accent-light)] mb-2">Step {step.number}</div>
+            <h3 class="text-xl font-bold mb-3">{step.title}</h3>
             <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">{step.description}</p>
           </div>
         </div>
       ))}
     </div>
 
-    <a href={`${base}how-it-works/`} class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors">
-      Full details &rarr;
-    </a>
+    <div class="text-center mt-12">
+      <a href={`${base}how-it-works/`} class="btn-secondary">
+        Learn more
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </section>
