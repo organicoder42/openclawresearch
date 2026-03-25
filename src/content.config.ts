@@ -38,6 +38,8 @@ const bounties = defineCollection({
     order: z.number(),
     deliverable: z.string(),
     claimedBy: z.string().nullable(),
+    completedDate: z.string().nullable().optional(),
+    resultUrl: z.string().nullable().optional(),
   }),
 });
 

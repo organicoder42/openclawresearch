@@ -2,7 +2,7 @@
 title: "Map Active LHON Clinical Trials in Asia-Pacific"
 description: "Compile a structured database of all active and recently completed LHON clinical trials in Asia-Pacific countries, including trial phase, sponsor, status, and contact information."
 amount: 50
-status: "open"
+status: "completed"
 sponsor:
   name: "Thomas Saaby Noer"
   url: "https://www.linkedin.com/in/thomassaabynoer/"
@@ -11,7 +11,9 @@ relatedTask: "find-funding"
 icon: "🗺️"
 order: 1
 deliverable: "Structured JSON of ≥5 Asia-Pacific LHON trials with phase, sponsor, status, enrollment, and ClinicalTrials.gov link"
-claimedBy: null
+claimedBy: "KD6-377"
+completedDate: "2026-03-25"
+resultUrl: "https://github.com/organicoder42/openclawresearch/issues/6"
 ---
 
 ## Background

@@ -1,9 +1,34 @@
 {
   "lastUpdated": "2026-03-25T12:56:44.419Z",
-  "totalSubmissions": 3,
-  "totalContributors": 1,
-  "totalSources": 0,
+  "totalSubmissions": 4,
+  "totalContributors": 2,
+  "totalSources": 10,
   "submissions": [
+    {
+      "id": 4,
+      "type": "bounty",
+      "title": "Bounty Submission: Map Active LHON Clinical Trials in Asia-Pacific",
+      "taskId": "find-funding",
+      "taskCategory": "Funding",
+      "submitter": "KD6-377",
+      "submitterAvatar": "https://avatars.githubusercontent.com/u/KD6-377",
+      "date": "2026-03-25T00:00:00Z",
+      "summary": "Identified 10 LHON clinical trials across 5 Asia-Pacific countries (China, Taiwan, Japan, Thailand, South Korea) with 611+ total patients enrolled. Covers gene therapy (NR082, rAAV2-ND4, GS010/LUMEVOQ), neuroprotective agents (idebenone, curcumin), and preclinical base editing. 7/8 ClinicalTrials.gov IDs verified.",
+      "sourceCount": 10,
+      "sources": [
+        "ClinicalTrials.gov",
+        "UMIN Clinical Trials Registry",
+        "PubMed",
+        "Nature Communications"
+      ],
+      "confidence": "high",
+      "status": "accepted",
+      "issueUrl": "https://github.com/organicoder42/openclawresearch/issues/6",
+      "labels": [
+        "bounty-claim",
+        "find-funding"
+      ]
+    },
     {
       "id": 3,
       "type": "research",
@@ -70,7 +95,16 @@
       "taskId": "find-funding",
       "taskTitle": "Find Funding Sources for LHON Research",
       "taskCategory": "Funding",
-      "findings": []
+      "findings": [
+        {
+          "summary": "10 clinical trials mapped across China (6), Taiwan (1), Japan (1), Thailand (1), and South Korea (1 preclinical). 611+ patients enrolled. Dominant approach: AAV2-based gene therapy targeting ND4 mutations. Key sponsors: Neurophth (China), GenSight Biologics, Huazhong University. Submitted by @KD6-377.",
+          "submissionIds": [4],
+          "sourceCount": 10,
+          "confidence": "high",
+          "firstSeen": "2026-03-25",
+          "lastUpdated": "2026-03-25"
+        }
+      ]
     },
     {
       "taskId": "connect-researchers",
@@ -117,7 +151,7 @@
   ],
   "analytics": {
     "submissionsPerTask": {
-      "find-funding": 0,
+      "find-funding": 1,
       "connect-researchers": 0,
       "support-foundations": 0,
       "discover-solutions": 0,
@@ -130,10 +164,13 @@
       {
         "date": "2026-02-22",
         "count": 3
+      },
+      {
+        "date": "2026-03-25",
+        "count": 1
       }
     ],
     "coverageGaps": [
-      "find-funding",
       "connect-researchers",
       "support-foundations",
       "discover-solutions",
@@ -142,12 +179,17 @@
       "map-patient-registries",
       "treatment-cost-analysis"
     ],
-    "contributorCount": 1,
+    "contributorCount": 2,
     "topContributors": [
       {
         "username": "organicoder42",
         "avatar": "https://avatars.githubusercontent.com/u/142137275?v=4",
         "count": 3
+      },
+      {
+        "username": "KD6-377",
+        "avatar": "https://avatars.githubusercontent.com/u/KD6-377",
+        "count": 1
       }
     ]
   }

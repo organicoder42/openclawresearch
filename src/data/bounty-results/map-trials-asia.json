@@ -1,0 +1,133 @@
+{
+  "bountyId": "map-trials-asia",
+  "submitter": "KD6-377",
+  "submissionDate": "2026-03-25",
+  "issueUrl": "https://github.com/organicoder42/openclawresearch/issues/6",
+  "totalTrials": 10,
+  "totalEnrollment": 611,
+  "countries": ["China", "Taiwan", "Japan", "Thailand", "South Korea"],
+  "verified": true,
+  "verificationNote": "7/8 ClinicalTrials.gov NCT IDs verified with 100% metadata match. UMIN000017939 is on Japanese registry. SNU-2025 is preclinical.",
+  "trials": [
+    {
+      "id": "NCT04912843",
+      "title": "GOLD Trial — NR082 Gene Therapy",
+      "phase": "1/2/3",
+      "sponsor": "Wuhan Neurophth Biotechnology",
+      "country": "China",
+      "enrollment": 102,
+      "status": "Recruiting",
+      "intervention": "NR082 (AAV2-ND4 gene therapy)",
+      "mutation": "ND4 (G11778A)",
+      "url": "https://clinicaltrials.gov/study/NCT04912843"
+    },
+    {
+      "id": "NCT07406854",
+      "title": "NR082 Phase 3 Bilateral IVT",
+      "phase": "3",
+      "sponsor": "Wuhan Neurophth Biotechnology",
+      "country": "China",
+      "enrollment": 95,
+      "status": "Active, not recruiting",
+      "intervention": "NR082 bilateral intravitreal injection",
+      "mutation": "ND4 (G11778A)",
+      "url": "https://clinicaltrials.gov/study/NCT07406854"
+    },
+    {
+      "id": "NCT03153293",
+      "title": "rAAV2-ND4 for LHON",
+      "phase": "2/3",
+      "sponsor": "Huazhong University of Science and Technology",
+      "country": "China",
+      "enrollment": 159,
+      "status": "Unknown",
+      "intervention": "rAAV2-ND4 gene therapy",
+      "mutation": "ND4 (G11778A)",
+      "url": "https://clinicaltrials.gov/study/NCT03153293"
+    },
+    {
+      "id": "NCT03428178",
+      "title": "rAAV2-ND4 for Acute LHON",
+      "phase": "2/3",
+      "sponsor": "Bin Li / Huazhong University",
+      "country": "China",
+      "enrollment": 120,
+      "status": "Unknown",
+      "intervention": "rAAV2-ND4 gene therapy (acute onset)",
+      "mutation": "ND4 (G11778A)",
+      "url": "https://clinicaltrials.gov/study/NCT03428178"
+    },
+    {
+      "id": "NCT05820152",
+      "title": "NFS-02 for ND1 LHON",
+      "phase": "1/2",
+      "sponsor": "Neurophth Therapeutics Inc",
+      "country": "China / United States",
+      "enrollment": 11,
+      "status": "Terminated",
+      "intervention": "NFS-02 (ND1-targeting gene therapy)",
+      "mutation": "ND1 (G3460A)",
+      "url": "https://clinicaltrials.gov/study/NCT05820152"
+    },
+    {
+      "id": "NCT01267422",
+      "title": "First LHON Gene Therapy Trial",
+      "phase": "1/2",
+      "sponsor": "Bin Li / Huazhong University",
+      "country": "China",
+      "enrollment": 9,
+      "status": "Completed",
+      "intervention": "rAAV2-ND4 gene therapy (world's first)",
+      "mutation": "ND4 (G11778A)",
+      "url": "https://clinicaltrials.gov/study/NCT01267422"
+    },
+    {
+      "id": "NCT03293524",
+      "title": "REFLECT Trial — GS010/LUMEVOQ",
+      "phase": "3",
+      "sponsor": "GenSight Biologics",
+      "country": "Taiwan + 6 countries",
+      "enrollment": 98,
+      "status": "Completed",
+      "intervention": "GS010 (lenadogene nolparvovec / LUMEVOQ)",
+      "mutation": "ND4 (G11778A)",
+      "url": "https://clinicaltrials.gov/study/NCT03293524"
+    },
+    {
+      "id": "NCT00528151",
+      "title": "Curcumin for LHON",
+      "phase": "2",
+      "sponsor": "Ramathibodi Hospital, Thailand",
+      "country": "Thailand",
+      "enrollment": 70,
+      "status": "Completed",
+      "intervention": "Curcumin (neuroprotective supplement)",
+      "mutation": "Multiple",
+      "url": "https://clinicaltrials.gov/study/NCT00528151"
+    },
+    {
+      "id": "UMIN000017939",
+      "title": "Idebenone for Japanese LHON Patients",
+      "phase": "3",
+      "sponsor": "Japanese LHON Group",
+      "country": "Japan",
+      "enrollment": 57,
+      "status": "Completed",
+      "intervention": "Idebenone",
+      "mutation": "Multiple",
+      "url": "https://center6.umin.ac.jp/cgi-open-bin/ctr/ctr_view.cgi?recptno=R000020822"
+    },
+    {
+      "id": "SNU-2025",
+      "title": "DdCBE Mitochondrial Base Editing",
+      "phase": "Preclinical",
+      "sponsor": "Seoul National University",
+      "country": "South Korea",
+      "enrollment": null,
+      "status": "Preclinical",
+      "intervention": "DdCBE (dual-deaminase base editor) for mtDNA correction",
+      "mutation": "Multiple mtDNA mutations",
+      "url": null
+    }
+  ]
+}

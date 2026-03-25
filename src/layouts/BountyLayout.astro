@@ -12,10 +12,17 @@ interface Props {
   deliverable: string;
   relatedTask: string | null;
   slug: string;
+  claimedBy?: string | null;
+  completedDate?: string | null;
+  resultUrl?: string | null;
 }
 
 const base = import.meta.env.BASE_URL;
-const { title, description, amount, status, sponsor, deadline, icon, deliverable, relatedTask, slug } = Astro.props;
+const { title, description, amount, status, sponsor, deadline, icon, deliverable, relatedTask, slug, claimedBy, completedDate, resultUrl } = Astro.props;
+
+const completedDateLabel = completedDate
+  ? new Date(completedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  : null;
 
 const claimUrl = `https://github.com/organicoder42/openclawresearch/issues/new?template=bounty-claim.yml&title=${encodeURIComponent(`[Bounty Claim] ${title}`)}`;
 
@@ -80,6 +87,37 @@ const statusColor: Record<string, string> = {
         </div>
       )}
     </header>
+
+    <!-- Completion Banner -->
+    {status === 'completed' && claimedBy && (
+      <div class="mb-12 glass-card p-6 border-[var(--color-green)]/30">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-[var(--color-green)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <p class="font-semibold text-[var(--color-text-primary)]">
+                Completed by <span class="text-[var(--color-accent-light)]">@{claimedBy}</span>
+              </p>
+              {completedDateLabel && (
+                <p class="text-sm text-[var(--color-text-muted)]">{completedDateLabel}</p>
+              )}
+            </div>
+          </div>
+          {resultUrl && (
+            <a
+              href={resultUrl.startsWith('http') ? resultUrl : `${base}results/${slug}/`}
+              target={resultUrl.startsWith('http') ? '_blank' : undefined}
+              rel={resultUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+              class="btn-primary text-sm !py-2 !px-4 sm:ml-auto"
+            >
+              View results
+            </a>
+          )}
+        </div>
+      </div>
+    )}
 
     <!-- Content -->
     <div class="prose prose-invert max-w-none

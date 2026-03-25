@@ -25,6 +25,9 @@ const { Content } = await render(bounty);
   deliverable={bounty.data.deliverable}
   relatedTask={bounty.data.relatedTask}
   slug={bounty.id}
+  claimedBy={bounty.data.claimedBy}
+  completedDate={bounty.data.completedDate}
+  resultUrl={bounty.data.resultUrl}
 >
   <Content />
 </BountyLayout>
