@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL;
+const outreach = await getCollection('outreach');
+const stakeholders = await getCollection('stakeholders');
+
+const stakeholderMap = new Map(stakeholders.map((s) => [s.id, s.data]));
+
+const stats = {
+  draft: outreach.filter(o => o.data.status === 'draft').length,
+  approved: outreach.filter(o => o.data.status === 'approved').length,
+  sent: outreach.filter(o => o.data.status === 'sent').length,
+  responded: outreach.filter(o => o.data.status === 'responded').length,
+  total: outreach.length,
+};
+
+const sorted = [...outreach].sort((a, b) =>
+  new Date(b.data.draftedDate).getTime() - new Date(a.data.draftedDate).getTime()
+);
+
+const purposeLabels: Record<string, string> = {
+  'research-promotion': 'Research promotion',
+  'intro-request': 'Introduction request',
+  'cross-researcher-intro': 'Cross-researcher intro',
+  'newsletter-invite': 'Newsletter partnership',
+  'sponsor-pitch': 'Sponsor pitch',
+};
+
+const statusColors: Record<string, string> = {
+  draft: 'text-[var(--color-amber)]',
+  approved: 'text-[var(--color-cyan)]',
+  sent: 'text-[var(--color-accent-light)]',
+  responded: 'text-[var(--color-green)]',
+  'sent-no-response': 'text-[var(--color-text-muted)]',
+};
+---
+
+<BaseLayout
+  title="Outreach log - LHONOpenClaw"
+  description="Public log of outreach drafts, sent messages, and responses. Transparent record of the project's engagement with the LHON research community."
+>
+  <div class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <!-- Breadcrumb -->
+    <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+      <a href={base} class="hover:text-[var(--color-text-secondary)] transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-[var(--color-text-secondary)]">Outreach</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Outreach log</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-3xl mb-4">
+        Transparent public log of the project's outreach to researchers, patient advocacy orgs, and potential sponsors. Draft content is only shown when the recipient has indicated public comms are welcome; otherwise only metadata is logged so the project can be held accountable without exposing inbox contents.
+      </p>
+
+      <div class="glass-card p-4 border border-[var(--color-amber)]/30">
+        <p class="text-sm text-[var(--color-text-secondary)]">
+          <span class="font-semibold text-[var(--color-amber)]">Privacy policy:</span> Recipients can request removal at any time. Every sent email includes an opt-out note.
+        </p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
+      {[
+        { label: 'Total', value: stats.total, color: 'text-[var(--color-text-primary)]' },
+        { label: 'Drafts', value: stats.draft, color: 'text-[var(--color-amber)]' },
+        { label: 'Approved', value: stats.approved, color: 'text-[var(--color-cyan)]' },
+        { label: 'Sent', value: stats.sent, color: 'text-[var(--color-accent-light)]' },
+        { label: 'Responded', value: stats.responded, color: 'text-[var(--color-green)]' },
+      ].map(({ label, value, color }) => (
+        <div class="glass-card p-4 text-center">
+          <p class={`text-2xl font-bold font-mono ${color}`}>{value}</p>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">{label}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Log -->
+    {sorted.length > 0 ? (
+      <div class="space-y-4 mb-16">
+        {sorted.map((o) => {
+          const recipient = stakeholderMap.get(o.data.to);
+          return (
+            <div class="glass-card p-5">
+              <div class="flex items-start justify-between gap-4 mb-3">
+                <div class="min-w-0 flex-1">
+                  <h3 class="font-semibold text-[var(--color-text-primary)] mb-1">{o.data.subject}</h3>
+                  <p class="text-xs text-[var(--color-text-muted)]">
+                    <span class="font-mono">{purposeLabels[o.data.purpose]}</span>
+                    {recipient && (
+                      <>
+                        <span class="mx-2">·</span>
+                        <a href={`${base}stakeholders/${o.data.to}/`} class="text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors">
+                          {recipient.name} ({recipient.institution})
+                        </a>
+                      </>
+                    )}
+                  </p>
+                </div>
+                <span class={`text-xs font-mono uppercase tracking-wide ${statusColors[o.data.status] || 'text-[var(--color-text-muted)]'} shrink-0`}>
+                  {o.data.status}
+                </span>
+              </div>
+
+              <div class="flex items-center gap-3 text-xs text-[var(--color-text-muted)] pt-3 border-t border-[var(--color-border)]">
+                <span>Drafted by <span class="font-mono">{o.data.draftedBy}</span></span>
+                <span>·</span>
+                <span>{o.data.draftedDate}</span>
+                {o.data.sentDate && (
+                  <>
+                    <span>·</span>
+                    <span>Sent {o.data.sentDate}</span>
+                  </>
+                )}
+                {o.data.attachments.length > 0 && (
+                  <>
+                    <span>·</span>
+                    <span class="font-mono">{o.data.attachments.length} attached brief{o.data.attachments.length > 1 ? 's' : ''}</span>
+                  </>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="glass-card p-12 text-center mb-16">
+        <p class="text-[var(--color-text-muted)]">No outreach logged yet.</p>
+      </div>
+    )}
+
+    <!-- CTA -->
+    <div class="glass-card p-8">
+      <h2 class="text-xl font-bold mb-3">Draft outreach</h2>
+      <p class="text-[var(--color-text-secondary)] mb-6">
+        Outreach drafts are written by volunteers and AI agents using the project's email templates. Every draft is reviewed before sending.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href={`${base}tasks/draft-outreach-emails/`} class="btn-primary">View the task</a>
+        <a href={`${base}stakeholders/`} class="btn-secondary">Browse stakeholders</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

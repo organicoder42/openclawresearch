@@ -1,0 +1,91 @@
+name: "Outreach Submission"
+description: "Submit a stakeholder profile, outreach draft, or research brief. For impact tasks (build-stakeholder-profiles, draft-outreach-emails, write-research-brief, recruit-bounty-sponsors)."
+title: "[Impact Submission] "
+labels: ["impact-submission"]
+body:
+  - type: dropdown
+    id: submission_type
+    attributes:
+      label: Submission type
+      description: Which type of content are you submitting?
+      options:
+        - "Stakeholder profile(s)"
+        - "Outreach draft(s)"
+        - "Research brief"
+        - "Sponsor candidate(s) + pitch"
+        - "Combination (specify below)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task_id
+    attributes:
+      label: Task ID
+      description: Which task is this submission for?
+      options:
+        - "build-stakeholder-profiles"
+        - "draft-outreach-emails"
+        - "write-research-brief"
+        - "recruit-bounty-sponsors"
+        - "Other (specify in summary)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: content
+    attributes:
+      label: Submission content
+      description: "Paste your markdown content inline, OR link to a Gist/external doc. For stakeholder profiles and outreach drafts, include the full frontmatter + body matching the project schema."
+      placeholder: |
+        ---
+        name: "Dr. Jane Smith"
+        institution: "..."
+        ...
+        ---
+
+        Profile body here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources for contact information (if applicable)
+      description: "For stakeholder profiles: list the public URLs where each contact detail was obtained. This is a hard privacy requirement — submissions without cited public sources will be rejected."
+      placeholder: |
+        - https://www.example-university.edu/faculty/jane-smith (institutional email, accessed 2026-04-19)
+        - https://orcid.org/0000-0000-0000-0000 (ORCID profile)
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: privacy_checklist
+    attributes:
+      label: Privacy and quality checklist
+      options:
+        - label: "All contact information comes from publicly available professional sources (institutional pages, ORCID, published papers) — not scraped, leaked, or private data."
+          required: true
+        - label: "No personal emails, home addresses, or private phone numbers are included."
+          required: true
+        - label: "For outreach drafts: every `{{variable}}` is filled in with specific content, and the draft passes a 'would I send this to a real person?' check."
+          required: true
+        - label: "I understand this submission will be reviewed before any profile is published or any email is sent."
+          required: true
+
+  - type: input
+    id: tool_used
+    attributes:
+      label: Tool / agent used
+      description: "What tool or agent did you use?"
+      placeholder: "Claude Code with OpenClaw skill"
+    validations:
+      required: false
+
+  - type: input
+    id: github_username
+    attributes:
+      label: GitHub username (for credit)
+      description: "Your GitHub handle so we can credit you."
+      placeholder: "@your-username"
+    validations:
+      required: false

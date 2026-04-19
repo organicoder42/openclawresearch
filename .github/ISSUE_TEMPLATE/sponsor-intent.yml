@@ -1,0 +1,74 @@
+name: "Sponsor Intent"
+description: "Indicate interest in sponsoring a research task. This is a low-commitment first step — we'll follow up to work out the details."
+title: "[Sponsor Intent] "
+labels: ["sponsor-intent"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for considering sponsoring a task. Filling this in does not commit you to anything — it just starts a conversation so we can work out the details together.
+
+  - type: input
+    id: sponsor_name
+    attributes:
+      label: Your name or organization
+      description: How should we acknowledge you if the sponsorship goes ahead?
+      placeholder: "e.g., Jane Doe / Example Foundation"
+    validations:
+      required: true
+
+  - type: input
+    id: task_title
+    attributes:
+      label: Task you'd like to sponsor
+      description: The title or ID of the task from /tasks/
+      placeholder: "Build LHON Stakeholder Profiles"
+    validations:
+      required: true
+
+  - type: input
+    id: amount
+    attributes:
+      label: Suggested amount (USD)
+      description: Rough ballpark — we can discuss what makes sense. Bounties typically range from $25 to $500.
+      placeholder: "$100"
+    validations:
+      required: false
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why this task?
+      description: What drew you to this particular task? (optional but helpful)
+      placeholder: "We're focused on improving LHON patient outreach..."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: acknowledgement
+    attributes:
+      label: Public acknowledgement preference
+      description: How would you like to be credited?
+      options:
+        - "Full name / org name"
+        - "Anonymous"
+        - "I'll decide later"
+    validations:
+      required: false
+
+  - type: input
+    id: contact
+    attributes:
+      label: Best way to follow up
+      description: GitHub handle, email, or other preferred method. We'll reach out to work out payment details privately.
+      placeholder: "@your-handle or email"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: "I understand this is an informal expression of interest and not a binding commitment."
+          required: true

@@ -9,6 +9,21 @@ const base = import.meta.env.BASE_URL;
 const siteUrl = Astro.site?.origin ?? 'https://organicoder42.github.io';
 const tasks = (await getCollection('tasks')).sort((a, b) => a.data.order - b.data.order);
 
+const stakeholders = await getCollection('stakeholders');
+const briefs = await getCollection('briefs');
+const outreach = await getCollection('outreach');
+const bounties = await getCollection('bounties');
+const completedBounties = bounties.filter(b => b.data.status === 'completed');
+
+const impactStats = {
+  stakeholders: stakeholders.length,
+  countries: new Set(stakeholders.map(s => s.data.country)).size,
+  briefs: briefs.length,
+  outreachDrafts: outreach.filter(o => o.data.status === 'draft' || o.data.status === 'approved').length,
+  emailsSent: outreach.filter(o => o.data.status === 'sent' || o.data.status === 'responded').length,
+  completedBounties: completedBounties.length,
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -97,6 +112,8 @@ const jsonLd = {
             prize={task.data.prize}
             href={`${base}tasks/${task.id}/`}
             icon={task.data.icon}
+            sponsorable={task.data.sponsorable}
+            suggestedBountyAmount={task.data.suggestedBountyAmount}
           />
         ))}
       </div>
@@ -112,6 +129,57 @@ const jsonLd = {
     </div>
   </section>
 
+  <!-- Impact -->
+  <section class="py-20 md:py-28 border-t border-[var(--color-border)]" aria-label="Project impact">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Impact so far</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+          The project's job is not to collect data — it's to get verified findings in front of the people who can act on them. Progress is tracked publicly.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
+        <a href={`${base}stakeholders/`} class="glass-card p-5 group">
+          <p class="text-3xl font-bold font-mono text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-light)] transition-colors">{impactStats.stakeholders}</p>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">Stakeholders mapped</p>
+        </a>
+        <div class="glass-card p-5">
+          <p class="text-3xl font-bold font-mono text-[var(--color-text-primary)]">{impactStats.countries}</p>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">Countries covered</p>
+        </div>
+        <a href={`${base}briefs/`} class="glass-card p-5 group">
+          <p class="text-3xl font-bold font-mono text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-light)] transition-colors">{impactStats.briefs}</p>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">Research briefs</p>
+        </a>
+        <a href={`${base}results/`} class="glass-card p-5 group">
+          <p class="text-3xl font-bold font-mono text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-light)] transition-colors">{impactStats.completedBounties}</p>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">Completed bounties</p>
+        </a>
+        <a href={`${base}outreach/`} class="glass-card p-5 group">
+          <p class="text-3xl font-bold font-mono text-[var(--color-amber)]">{impactStats.outreachDrafts}</p>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">Drafts pending</p>
+        </a>
+        <a href={`${base}outreach/`} class="glass-card p-5 group">
+          <p class="text-3xl font-bold font-mono text-[var(--color-green)]">{impactStats.emailsSent}</p>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">Emails sent</p>
+        </a>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href={`${base}stakeholders/`} class="btn-secondary">
+          Stakeholder map
+        </a>
+        <a href={`${base}briefs/`} class="btn-secondary">
+          Research briefs
+        </a>
+        <a href={`${base}outreach/`} class="btn-secondary">
+          Outreach log
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- How It Works -->
   <div class="border-t border-[var(--color-border)]">
     <HowItWorks />
@@ -121,15 +189,15 @@ const jsonLd = {
   <section class="py-20 md:py-28 border-t border-[var(--color-border)]" aria-label="Sponsor a prize">
     <div class="max-w-3xl mx-auto px-6 text-center">
       <div class="glass-card p-12">
-        <span class="badge badge-sponsor mb-6">Seeking Sponsors</span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">Fund a Cure</h2>
+        <span class="badge badge-sponsor mb-6">Keep the research engine running</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Sponsor a task</h2>
         <p class="text-[var(--color-text-secondary)] mb-8 max-w-xl mx-auto">
-          No prizes have been funded yet. Be the first to sponsor a research task and incentivize AI agents to work on finding a cure for LHON.
+          The first bounty was self-funded. Future bounties depend on external sponsors — foundations, biotech, or individual donors who want verified LHON research delivered and distributed. Prizes start at $25.
         </p>
         <a href={`${base}sponsors/`} class="btn-primary text-base">
-          Become a Sponsor
+          See sponsorable tasks
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
       </div>

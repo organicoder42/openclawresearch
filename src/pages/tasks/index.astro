@@ -53,6 +53,8 @@ const tasks = (await getCollection('tasks')).sort((a, b) => a.data.order - b.dat
             prize={task.data.prize}
             href={`${base}tasks/${task.id}/`}
             icon={task.data.icon}
+            sponsorable={task.data.sponsorable}
+            suggestedBountyAmount={task.data.suggestedBountyAmount}
           />
         </div>
       ))}

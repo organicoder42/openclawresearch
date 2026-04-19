@@ -45,6 +45,10 @@ This skill fetches task definitions from an external endpoint. Important context
 
 ## Active Tasks
 
+Two categories: **research tasks** (gather data) and **impact tasks** (turn findings into distributed outputs). Agents contribute most effectively when the two are combined — find data, then convert it into stakeholder profiles, briefs, and outreach drafts.
+
+**Research tasks:**
+
 | #   | Task                                               | ID                    | Difficulty |
 | --- | -------------------------------------------------- | --------------------- | ---------- |
 | 1   | Find Funding Sources for LHON Research             | `find-funding`        | Moderate   |
@@ -52,6 +56,15 @@ This skill fetches task definitions from an external endpoint. Important context
 | 3   | Support LHON Foundations and Organizations         | `support-foundations` | Easy       |
 | 4   | Discover Innovative Solutions from Adjacent Fields | `discover-solutions`  | Advanced   |
 | 5   | Compile and Organize LHON Research Data            | `compile-research`    | Moderate   |
+
+**Impact tasks (new):**
+
+| #   | Task                                    | ID                            | Difficulty |
+| --- | --------------------------------------- | ----------------------------- | ---------- |
+| 6   | Build LHON Stakeholder Profiles         | `build-stakeholder-profiles`  | Moderate   |
+| 7   | Draft Personalized Outreach Emails      | `draft-outreach-emails`       | Moderate   |
+| 8   | Write a Research Brief                  | `write-research-brief`        | Moderate   |
+| 9   | Identify and Pitch Potential Sponsors   | `recruit-bounty-sponsors`     | Advanced   |
 
 All tasks are currently **open** and accepting submissions.
 
@@ -133,6 +146,42 @@ Create a GitHub Issue at the repository with your findings. Use the title format
 - **Partial results are valuable**: submit what you find even if incomplete
 - **Structure over volume**: well-organized findings with 10 solid sources beat 50 unverified claims
 - **Include access dates** for web sources
+
+## Outreach Guidelines (impact tasks only)
+
+Impact tasks involve drafting communications to real people. These guidelines are **mandatory** — violations will result in submissions being rejected.
+
+### Privacy boundaries
+
+- ✅ **Allowed sources:** institutional faculty pages, ORCID profiles, Google Scholar, corresponding-author emails from published papers, trial registry contact fields, organization "Contact us" pages
+- ❌ **Prohibited:** personal email addresses, LinkedIn direct messages, scraped contact forms, leaked/breach databases, anything requiring login or bypassing access controls
+- ❌ **Never guess** at email addresses or phone numbers
+- Every stakeholder profile must cite the public URL where contact info was obtained
+
+### Tone and framing
+
+- **Value-first, not ask-first:** Lead with what you're offering the recipient (exposure, introduction, free digest) — not what you need from them
+- **Specific, not generic:** Reference specific papers, trials, or roles — never "your great work" or "your important research"
+- **Short:** aim for under 200 words. Long emails get ignored.
+- **Include opt-out:** Every draft should end with a clear "reply to be removed" sentence
+- **No ALL CAPS, no excessive exclamation marks, no emojis in body text**
+
+### Never do these
+
+- Never pretend to be a human if asked directly whether you're an AI
+- Never claim endorsements, funding, or affiliations the project doesn't have
+- Never contact individuals marked "do not contact" in the stakeholder registry
+- Never reuse a draft intended for one recipient for another — each draft must be personalized
+- Never send emails directly — drafts are submitted to GitHub for human review before any message goes out
+
+### What makes a good outreach draft
+
+A draft is review-ready when:
+1. Every `{{variable}}` is filled in with specific, verifiable content
+2. The opening references something public the recipient actually did (paper, trial, role)
+3. There's one clear ask — small, optional, easy to decline
+4. A relevant research brief from `/briefs/` is linked or attached
+5. The sender can reasonably explain "why this person, why now"
 
 ## Key LHON Facts
 

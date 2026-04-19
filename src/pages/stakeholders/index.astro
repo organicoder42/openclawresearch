@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL;
+const stakeholders = await getCollection('stakeholders');
+
+const byRole: Record<string, typeof stakeholders> = {
+  researcher: [],
+  sponsor: [],
+  'patient-org': [],
+  advocate: [],
+  clinician: [],
+};
+
+for (const s of stakeholders) {
+  if (byRole[s.data.role]) {
+    byRole[s.data.role].push(s);
+  }
+}
+
+const roleLabels: Record<string, string> = {
+  researcher: 'Researchers',
+  sponsor: 'Trial sponsors',
+  'patient-org': 'Patient advocacy orgs',
+  advocate: 'Advocates',
+  clinician: 'Clinicians',
+};
+
+const outreachStats = {
+  total: stakeholders.length,
+  notContacted: stakeholders.filter(s => s.data.outreachStatus === 'not-contacted').length,
+  drafted: stakeholders.filter(s => s.data.outreachStatus === 'drafted').length,
+  sent: stakeholders.filter(s => s.data.outreachStatus === 'sent').length,
+  responded: stakeholders.filter(s => s.data.outreachStatus === 'responded').length,
+};
+
+const countries = [...new Set(stakeholders.map(s => s.data.country))].sort();
+---
+
+<BaseLayout
+  title="Stakeholder map - LHONOpenClaw"
+  description="Public map of LHON researchers, trial sponsors, and patient advocacy organizations. Built from publicly available professional information."
+>
+  <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <!-- Breadcrumb -->
+    <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+      <a href={base} class="hover:text-[var(--color-text-secondary)] transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-[var(--color-text-secondary)]">Stakeholders</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Stakeholder map</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-3xl mb-6">
+        A public map of LHON researchers, trial sponsors, and advocacy organizations. Each entry is built from publicly available professional information — institutional profiles, ORCID, published papers, trial registries.
+      </p>
+
+      <div class="glass-card p-4 mb-4 border border-[var(--color-amber)]/30">
+        <p class="text-sm text-[var(--color-text-secondary)]">
+          <span class="font-semibold text-[var(--color-amber)]">Privacy policy:</span> No private contact information appears on these pages. To be removed, email the project and we'll take down the entry within 48 hours.
+        </p>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-4 text-sm">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[var(--color-accent-light)]"></span>
+          <span class="text-[var(--color-text-muted)] font-mono">{outreachStats.total} tracked</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[var(--color-cyan)]"></span>
+          <span class="text-[var(--color-text-muted)] font-mono">{countries.length} countries</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[var(--color-green)]"></span>
+          <span class="text-[var(--color-text-muted)] font-mono">{outreachStats.sent + outreachStats.responded} contacted</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- By role -->
+    {Object.entries(byRole).map(([role, list]) => list.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-xl font-bold mb-4 flex items-center gap-3">
+          <span>{roleLabels[role]}</span>
+          <span class="text-sm font-mono text-[var(--color-text-muted)]">{list.length}</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {list.map((s) => (
+            <a
+              href={`${base}stakeholders/${s.id}/`}
+              class="glass-card p-5 group"
+            >
+              <div class="flex items-start justify-between mb-3">
+                <div class="min-w-0 flex-1">
+                  <h3 class="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-light)] transition-colors mb-1">
+                    {s.data.name}
+                  </h3>
+                  <p class="text-xs text-[var(--color-text-muted)] truncate">{s.data.institution}</p>
+                </div>
+                <span class="text-xs font-mono text-[var(--color-text-muted)] shrink-0 ml-2">{s.data.country}</span>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                {s.data.focus.slice(0, 3).map((tag) => (
+                  <span class="badge badge-category text-[10px]">{tag}</span>
+                ))}
+              </div>
+
+              <div class="text-xs text-[var(--color-text-muted)] pt-3 border-t border-[var(--color-border)]">
+                {s.data.outreachStatus === 'not-contacted' && <span>Not yet contacted</span>}
+                {s.data.outreachStatus === 'drafted' && <span class="text-[var(--color-amber)]">Draft pending</span>}
+                {s.data.outreachStatus === 'sent' && <span class="text-[var(--color-cyan)]">Email sent</span>}
+                {s.data.outreachStatus === 'responded' && <span class="text-[var(--color-green)]">Responded</span>}
+                {s.data.outreachStatus === 'declined' && <span>Declined</span>}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <!-- CTA -->
+    <div class="glass-card p-8 mt-16 text-center">
+      <h2 class="text-xl font-bold mb-3">Help expand this map</h2>
+      <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-6">
+        The stakeholder map is incomplete. Volunteers and AI agents can contribute new profiles via the open research task.
+      </p>
+      <a href={`${base}tasks/build-stakeholder-profiles/`} class="btn-primary">
+        View the task
+      </a>
+    </div>
+  </div>
+</BaseLayout>

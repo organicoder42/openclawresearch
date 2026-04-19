@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const stakeholders = await getCollection('stakeholders');
+  return stakeholders.map((stakeholder) => ({
+    params: { slug: stakeholder.id },
+    props: { stakeholder },
+  }));
+}
+
+const base = import.meta.env.BASE_URL;
+const { stakeholder } = Astro.props;
+const { Content } = await render(stakeholder);
+const s = stakeholder.data;
+
+const roleLabels: Record<string, string> = {
+  researcher: 'Researcher',
+  sponsor: 'Trial sponsor',
+  'patient-org': 'Patient advocacy organization',
+  advocate: 'Advocate',
+  clinician: 'Clinician',
+};
+
+const outreachLabels: Record<string, string> = {
+  'not-contacted': 'Not yet contacted',
+  drafted: 'Draft pending review',
+  sent: 'Email sent',
+  responded: 'Responded',
+  declined: 'Declined contact',
+};
+---
+
+<BaseLayout
+  title={`${s.name} - LHONOpenClaw`}
+  description={s.bio || `${s.name} at ${s.institution} - stakeholder profile`}
+>
+  <article class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <!-- Breadcrumb -->
+    <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+      <a href={base} class="hover:text-[var(--color-text-secondary)] transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <a href={`${base}stakeholders/`} class="hover:text-[var(--color-text-secondary)] transition-colors">Stakeholders</a>
+      <span class="mx-2">/</span>
+      <span class="text-[var(--color-text-secondary)]">{s.name}</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="mb-10">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="badge badge-category">{roleLabels[s.role]}</span>
+        <span class="badge badge-sponsor font-mono text-xs">{s.country}</span>
+      </div>
+
+      <h1 class="text-3xl md:text-4xl font-bold mb-3">{s.name}</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] mb-4">{s.institution}</p>
+
+      {s.bio && (
+        <p class="text-[var(--color-text-secondary)] leading-relaxed max-w-3xl">{s.bio}</p>
+      )}
+    </header>
+
+    <!-- Focus areas -->
+    <section class="mb-10">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Research focus</h2>
+      <div class="flex flex-wrap gap-2">
+        {s.focus.map((tag) => (
+          <span class="badge badge-category">{tag}</span>
+        ))}
+      </div>
+    </section>
+
+    <!-- Links -->
+    <section class="mb-10 glass-card p-6">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Public profiles</h2>
+      <ul class="space-y-2 text-sm">
+        {s.institutionUrl && (
+          <li>
+            <span class="text-[var(--color-text-muted)] mr-2">Institution:</span>
+            <a href={s.institutionUrl} target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors">
+              {s.institutionUrl}
+            </a>
+          </li>
+        )}
+        {s.website && (
+          <li>
+            <span class="text-[var(--color-text-muted)] mr-2">Website:</span>
+            <a href={s.website} target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors">
+              {s.website}
+            </a>
+          </li>
+        )}
+        {s.orcid && (
+          <li>
+            <span class="text-[var(--color-text-muted)] mr-2">ORCID:</span>
+            <a href={`https://orcid.org/${s.orcid}`} target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors font-mono">
+              {s.orcid}
+            </a>
+          </li>
+        )}
+      </ul>
+      <p class="text-xs text-[var(--color-text-muted)] mt-4">
+        Contact is made via official institutional channels, not private email. To request removal, email the project.
+      </p>
+    </section>
+
+    <!-- Recent publications -->
+    {s.recentPubs.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-sm font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-4">Recent publications</h2>
+        <ul class="space-y-3">
+          {s.recentPubs.map((pub) => (
+            <li class="glass-card p-4">
+              <p class="font-medium text-[var(--color-text-primary)] text-sm">{pub.title}</p>
+              <p class="text-xs text-[var(--color-text-muted)] mt-1">
+                {pub.journal && <span>{pub.journal} · </span>}
+                <span class="font-mono">{pub.year}</span>
+                {pub.doi && (
+                  <span> · <a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-light)] hover:underline">DOI</a></span>
+                )}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- Relevant findings -->
+    {s.relevantFindings.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-sm font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-4">Relevant project findings</h2>
+        <ul class="space-y-2">
+          {s.relevantFindings.map((finding) => (
+            <li>
+              <a href={`${base}results/${finding}/`} class="text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors">
+                {finding} &rarr;
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- Narrative content -->
+    <section class="prose prose-invert max-w-none mb-10
+      [&_p]:text-[var(--color-text-secondary)] [&_p]:leading-relaxed [&_p]:mb-4
+      [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-[var(--color-text-primary)]
+    ">
+      <Content />
+    </section>
+
+    <!-- Outreach status -->
+    <section class="glass-card p-6 mb-10">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Project outreach status</h2>
+      <p class="text-[var(--color-text-primary)]">{outreachLabels[s.outreachStatus]}</p>
+      {s.lastVerified && (
+        <p class="text-xs text-[var(--color-text-muted)] mt-2">Profile last verified: {s.lastVerified}</p>
+      )}
+    </section>
+
+    <!-- Back -->
+    <a href={`${base}stakeholders/`} class="btn-secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to all stakeholders
+    </a>
+  </article>
+</BaseLayout>

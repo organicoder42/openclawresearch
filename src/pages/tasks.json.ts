@@ -25,6 +25,8 @@ export const GET: APIRoute = async ({ site }) => {
       difficulty: task.data.difficulty,
       status: task.data.status,
       prize: task.data.prize,
+      sponsorable: task.data.sponsorable ?? true,
+      suggested_bounty_amount: task.data.suggestedBountyAmount ?? null,
       tags: task.data.tags,
       description: task.data.description,
       success_criteria: task.data.successCriteria,

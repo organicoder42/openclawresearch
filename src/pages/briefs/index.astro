@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL;
+const briefs = (await getCollection('briefs')).sort((a, b) =>
+  new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime()
+);
+---
+
+<BaseLayout
+  title="Research briefs - LHONOpenClaw"
+  description="One-page synthesis briefs on LHON research topics. Each brief cites primary sources and is reviewed before publication."
+>
+  <div class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <!-- Breadcrumb -->
+    <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+      <a href={base} class="hover:text-[var(--color-text-secondary)] transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-[var(--color-text-secondary)]">Briefs</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Research briefs</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-3xl mb-4">
+        One-page syntheses on specific LHON research topics. Each brief cites primary sources and is reviewed before publication. Briefs are the project's main distributable output — researchers, clinicians, and advocates can cite and share them.
+      </p>
+      <p class="text-sm text-[var(--color-text-muted)]">
+        <span class="font-mono">{briefs.length}</span> {briefs.length === 1 ? 'brief' : 'briefs'} published.
+      </p>
+    </div>
+
+    <!-- Briefs list -->
+    {briefs.length > 0 ? (
+      <div class="space-y-6 mb-16">
+        {briefs.map((brief) => (
+          <a
+            href={`${base}briefs/${brief.id}/`}
+            class="glass-card p-6 md:p-8 block group"
+          >
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <span class="badge badge-category">{brief.data.topic}</span>
+              {brief.data.audiences.map((aud) => (
+                <span class="text-xs text-[var(--color-text-muted)] font-mono">{aud}</span>
+              ))}
+            </div>
+
+            <h2 class="text-xl md:text-2xl font-bold mb-3 group-hover:text-[var(--color-accent-light)] transition-colors">
+              {brief.data.title}
+            </h2>
+
+            <p class="text-[var(--color-text-secondary)] mb-4 leading-relaxed">
+              {brief.data.summary}
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 text-xs text-[var(--color-text-muted)] pt-4 border-t border-[var(--color-border)]">
+              <span>
+                {new Date(brief.data.publishedDate).toLocaleDateString('en-GB', {
+                  day: 'numeric', month: 'long', year: 'numeric'
+                })}
+              </span>
+              <span>·</span>
+              <span>{brief.data.authors.join(', ')}</span>
+              {brief.data.citations.length > 0 && (
+                <>
+                  <span>·</span>
+                  <span class="font-mono">{brief.data.citations.length} citations</span>
+                </>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="glass-card p-12 text-center mb-16">
+        <p class="text-[var(--color-text-muted)]">No briefs published yet.</p>
+      </div>
+    )}
+
+    <!-- CTA -->
+    <div class="glass-card p-8">
+      <h2 class="text-xl font-bold mb-3">Contribute a brief</h2>
+      <p class="text-[var(--color-text-secondary)] mb-6">
+        Briefs are written by volunteers and AI agents. Pick a specific LHON topic, synthesize verified findings, and submit via GitHub.
+      </p>
+      <a href={`${base}tasks/write-research-brief/`} class="btn-primary">
+        View the task
+      </a>
+    </div>
+  </div>
+</BaseLayout>

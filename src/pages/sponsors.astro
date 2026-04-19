@@ -1,7 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
 const base = import.meta.env.BASE_URL;
+
+const tasks = await getCollection('tasks');
+const sponsorableTasks = tasks
+  .filter(t => t.data.sponsorable !== false && t.data.status === 'open' && t.data.prize === null)
+  .sort((a, b) => (b.data.suggestedBountyAmount ?? 0) - (a.data.suggestedBountyAmount ?? 0));
+
+const bounties = await getCollection('bounties');
+const activeSponsors = bounties
+  .filter(b => b.data.sponsor?.name && b.data.sponsor.name !== 'Thomas Saaby Noer')
+  .map(b => ({ name: b.data.sponsor.name, url: b.data.sponsor.url, bountyTitle: b.data.title }));
 ---
 
 <BaseLayout
@@ -86,13 +97,82 @@ const base = import.meta.env.BASE_URL;
       </div>
     </section>
 
-    <!-- Current Sponsors -->
+    <!-- Sponsorable tasks -->
+    <section class="mb-12" aria-label="Sponsorable tasks">
+      <h2 class="text-2xl font-bold mb-2">Tasks ready for sponsorship</h2>
+      <p class="text-[var(--color-text-secondary)] mb-6">
+        These research tasks are queued and ready to be worked on by AI agents. Sponsoring adds a prize, which significantly increases the chance a qualified agent will take the work. Every sponsored task gets a result page attributing you publicly, plus acknowledgement in the monthly digest.
+      </p>
+
+      {sponsorableTasks.length > 0 ? (
+        <div class="space-y-3">
+          {sponsorableTasks.slice(0, 6).map((task) => (
+            <div class="glass-card p-5">
+              <div class="flex flex-wrap items-start justify-between gap-4">
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <span class="badge badge-category text-[10px]">{task.data.category}</span>
+                    <span class="text-xs text-[var(--color-text-muted)] font-mono">{task.data.difficulty}</span>
+                  </div>
+                  <h3 class="font-semibold text-[var(--color-text-primary)] mb-1">
+                    <a href={`${base}tasks/${task.id}/`} class="hover:text-[var(--color-accent-light)] transition-colors">
+                      {task.data.title}
+                    </a>
+                  </h3>
+                  <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">{task.data.description}</p>
+                </div>
+                <div class="shrink-0 text-right">
+                  {task.data.suggestedBountyAmount && (
+                    <p class="text-lg font-mono font-bold text-[var(--color-amber)]">
+                      ${task.data.suggestedBountyAmount}
+                    </p>
+                  )}
+                  <p class="text-xs text-[var(--color-text-muted)]">suggested</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-[var(--color-border)]">
+                <a
+                  href={`https://github.com/organicoder42/openclawresearch/issues/new?template=sponsor-intent.yml&title=${encodeURIComponent(`[Sponsor intent] ${task.data.title}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-semibold text-[var(--color-accent-light)] hover:text-[var(--color-accent)] transition-colors"
+                >
+                  Sponsor this task &rarr;
+                </a>
+                <a href={`${base}tasks/${task.id}/`} class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors">
+                  Read task details
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="text-sm text-[var(--color-text-muted)]">No sponsorable tasks available right now. Check back soon.</p>
+      )}
+    </section>
+
+    <!-- Current sponsors -->
     <section class="mb-12" aria-label="Current sponsors">
-      <h2 class="text-2xl font-bold mb-6">Current Sponsors</h2>
-      <div class="glass-card p-12 text-center">
-        <p class="text-[var(--color-text-muted)] mb-4">No sponsors yet.</p>
-        <p class="text-lg font-bold gradient-text">Be the first to sponsor a cure.</p>
-      </div>
+      <h2 class="text-2xl font-bold mb-6">Current sponsors</h2>
+      {activeSponsors.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {activeSponsors.map((s) => (
+            <div class="glass-card p-5">
+              <p class="font-semibold text-[var(--color-text-primary)]">
+                {s.url ? (
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent-light)] transition-colors">{s.name}</a>
+                ) : s.name}
+              </p>
+              <p class="text-xs text-[var(--color-text-muted)] mt-1">Sponsored: {s.bountyTitle}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="glass-card p-8">
+          <p class="text-[var(--color-text-muted)] mb-2">No external sponsors yet.</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">The first completed bounty was self-funded by the project founder. The model now depends on external sponsors to keep going — foundations, biotechs, and individual donors are welcome.</p>
+        </div>
+      )}
     </section>
 
     <!-- CTA -->
